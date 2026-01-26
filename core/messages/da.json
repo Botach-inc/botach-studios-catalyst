@@ -360,6 +360,8 @@
         "cartCombined": "Vi bemærkede, at du havde gemt varer i en tidligere indkøbskurv, så vi har føjet dem til din nuværende indkøbskurv for dig.",
         "cartRestored": "Du startede en indkøbskurv på en anden enhed, og vi har gendannet den her, så du kan fortsætte, hvor du slap.",
         "cartUpdateInProgress": "Du har en igangværende opdatering af din indkøbskurv. Er du sikker på, at du vil forlade denne side? Dine ændringer kan gå tabt.",
+        "originalPrice": "Original price was {price}.",
+        "currentPrice": "Current price is {price}.",
         "CheckoutSummary": {
             "title": "Oversigt",
             "subTotal": "Subtotal",
@@ -429,7 +431,7 @@
         "otherDetails": "Andre oplysninger",
         "noOtherDetails": "Der er ingen andre oplysninger.",
         "viewOptions": "Se muligheder",
-        "successMessage": "<cartLink>{CartItems, plural, =1 {1 vare} other {# varer}} tilføjet til din indkøbskurv</cartLink>",
+        "successMessage": "{cartItems, plural, =1 {1 vare} other {# varer}} tilføjet til <cartLink>din indkøbskurv</cartLink>",
         "missingCart": "Indkøbskurven blev ikke fundet. Prøv igen senere.",
         "unknownError": "Ukendt fejl. Prøv igen senere."
     },
@@ -439,7 +441,7 @@
             "increaseQuantity": "Øg mængden",
             "decreaseQuantity": "Reducer mængden",
             "emptySelectPlaceholder": "Vælg en valgmulighed",
-            "successMessage": "<cartLink>{CartItems, plural, =1 {1 vare} other {# varer}} tilføjet til din indkøbskurv</cartLink>",
+            "successMessage": "{cartItems, plural, =1 {1 vare} other {# varer}} tilføjet til <cartLink>din indkøbskurv</cartLink>",
             "missingCart": "Indkøbskurven blev ikke fundet. Prøv igen senere.",
             "unknownError": "Ukendt fejl. Prøv igen senere.",
             "variantRequiredError": "Dette produkt kræver, at der vælges muligheder for at kunne lægges i indkøbskurven.",
@@ -611,6 +613,11 @@
                     "description": "Disse cookies hjælper os med at give en bedre brugeroplevelse og teste nye funktioner."
                 }
             }
+        },
+        "Price": {
+            "originalPrice": "Original price was {price}.",
+            "currentPrice": "Current price is {price}.",
+            "range": "Price from {minValue} to {maxValue}."
         }
     },
     "GiftCertificates": {
@@ -623,7 +630,7 @@
             "title": "Tjek saldo",
             "description": "Du kan tjekke saldoen og få oplysninger om dit gavekort ved at indtaste koden i feltet nedenfor.",
             "inputLabel": "Kode",
-            "inputPlaceholder": "Indtast kode",
+            "inputPlaceholder": "xxx-xxx-xxx-xxx",
             "purchasedDateLabel": "Købt",
             "senderLabel": "Fra",
             "Errors": {
@@ -663,5 +670,8 @@
                 }
             }
         }
+    },
+    "Form": {
+        "optional": "Valgfrit"
     }
 }

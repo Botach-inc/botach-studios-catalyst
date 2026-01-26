@@ -4,6 +4,7 @@ import { getFormProps, getInputProps, SubmissionResult, useForm } from '@conform
 import { parseWithZod } from '@conform-to/zod';
 import { clsx } from 'clsx';
 import { ArrowRight, GiftIcon, Minus, Plus, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import {
   ComponentPropsWithoutRef,
   startTransition,
@@ -451,7 +452,7 @@ export function CartClient<LineItem extends CartLineItem>({
               <div className="flex grow flex-col flex-wrap justify-between gap-y-2 @xl:flex-row">
                 <div className="flex w-full flex-1 flex-col @xl:w-1/2 @xl:pr-4">
                   <span className="font-medium">{lineItem.title}</span>
-                  <span className="text-[var(--cart-subtext-text,hsl(var(--contrast-300)))] contrast-more:text-[var(--cart-subtitle-text,hsl(var(--contrast-500)))]">
+                  <span className="text-[var(--cart-subtext-text,hsl(var(--contrast-400)))] contrast-more:text-[var(--cart-subtitle-text,hsl(var(--contrast-500)))]">
                     {lineItem.subtitle}
                   </span>
                 </div>
@@ -512,6 +513,8 @@ function CounterForm({
   action: (payload: FormData) => void;
   onSubmit: (formData: FormData) => void;
 }) {
+  const t = useTranslations('Cart');
+
   const [form, fields] = useForm({
     defaultValue: { id: lineItem.id },
     shouldValidate: 'onBlur',
@@ -561,7 +564,12 @@ function CounterForm({
       <div className="flex w-full flex-wrap items-center gap-x-5 gap-y-2">
         {lineItem.salePrice && lineItem.salePrice !== lineItem.price ? (
           <span className="font-medium @xl:ml-auto">
-            <span className="line-through">{lineItem.price}</span> {lineItem.salePrice}
+            <span className="sr-only">{t('originalPrice', { price: lineItem.price })}</span>
+            <span aria-hidden="true" className="line-through">
+              {lineItem.price}
+            </span>{' '}
+            <span className="sr-only">{t('currentPrice', { price: lineItem.salePrice })}</span>
+            <span aria-hidden="true">{lineItem.salePrice}</span>
           </span>
         ) : (
           <span className="font-medium @xl:ml-auto">{lineItem.price}</span>
