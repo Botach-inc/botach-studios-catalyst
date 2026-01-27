@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.2
+
+### Patch Changes
+
+- [#2845](https://github.com/bigcommerce/catalyst/pull/2845) [`7f82903`](https://github.com/bigcommerce/catalyst/commit/7f82903074ec9831c48246aa748748aede51fe1a) Thanks [@chanceaclark](https://github.com/chanceaclark)! - Pulls in changes from the `@bigcommerce/catalyst-core@1.4.2` patch.
+
 ## 1.4.1
 
 ### Patch Changes
