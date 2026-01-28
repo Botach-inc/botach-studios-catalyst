@@ -60,6 +60,7 @@ In order to complete the following steps, you will need to have met the followin
 >
 > - The `name` field in `core/package.json` should remain `@bigcommerce/catalyst-makeswift`
 > - The `version` field in `core/package.json` should remain whatever the latest published `@bigcommerce/catalyst-makeswift` version was
+> - The latest release in `core/CHANGELOG.md` should remain whatever the latest published `@bigcommerce/catalyst-makeswift` version was
 
 4. After resolving any merge conflicts, open a new PR in GitHub to merge your `sync-integrations-makeswift` into `integrations/makeswift`. This PR should be code reviewed and approved before the next steps.
 
@@ -104,14 +105,35 @@ This ensures `integrations/makeswift` remains a faithful mirror of `canary` whil
    - From this new `bump-version` branch, run `pnpm changeset`
    - Select `@bigcommerce/catalyst-makeswift`
    - For choosing between a `patch/minor/major` bump, you should copy the bump from Stage 1. (e.g., if `@bigcommerce/catalyst-core` went from `1.1.0` to `1.2.0`, choose `minor`)
+     - Example changeset:
+
+     ```
+     ---
+     "@bigcommerce/catalyst-makeswift": patch
+     ---
+
+     Pulls in changes from the `@bigcommerce/catalyst-core@1.4.1` patch.
+     ```
+
    - Commit the generated changeset file and open a PR to merge this branch into `integrations/makeswift`
    - Once merged, you can proceed to the next step
 
 4. Merge the **Version Packages (`integrations/makeswift`)** PR: Changesets will open another PR (similar to Stage 1) bumping `@bigcommerce/catalyst-makeswift`. Merge it following the same process. This cuts a new release of the Makeswift variant.
 
+5. **Tags and Releases:** Confirm tags exist for both `@bigcommerce/catalyst-core` and `@bigcommerce/catalyst-makeswift`. If needed, update `latest` tags in GitHub manually.
+
+- Push manually:
+  ```
+  git checkout canary
+  # Make sure you have the latest code
+  git fetch origin
+  git pull
+  git tag @bigcommerce/catalyst-core@latest -f
+  git push origin @bigcommerce/catalyst-core@latest -f
+  ```
+
 ### Additional Notes
 
-- **Tags and Releases:** Confirm tags exist for both `@bigcommerce/catalyst-core` and `@bigcommerce/catalyst-makeswift`. If needed, update `latest` tags in GitHub manually.
 - **Release cadence:** Teams typically review on Wednesdays whether to cut a release, but you may cut releases more frequently as needed.
 
 ## Other Ways to Contribute
