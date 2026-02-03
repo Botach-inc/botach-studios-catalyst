@@ -1,9 +1,23 @@
+import { Metadata } from 'next';
+
 import { defaultLocale, locales } from '~/i18n/locales';
-import { client, Page } from '~/lib/makeswift';
+import { client, getPageMetadata, Page } from '~/lib/makeswift';
 
 interface PageParams {
   locale: string;
   rest: string[];
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<PageParams>;
+}): Promise<Metadata> {
+  const { rest, locale } = await params;
+  const path = `/${rest.join('/')}`;
+  const metadata = await getPageMetadata({ path, locale });
+
+  return metadata ?? {};
 }
 
 export async function generateStaticParams(): Promise<PageParams[]> {

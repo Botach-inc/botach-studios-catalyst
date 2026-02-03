@@ -32,3 +32,18 @@ export const getComponentSnapshot = async (snapshotId: string) => {
 function normalizeLocale(locale: string): string | undefined {
   return locale === defaultLocale ? undefined : locale;
 }
+
+export async function getPageMetadata({ path, locale }: { path: string; locale: string }) {
+  const snapshot = await getPageSnapshot({ path, locale });
+
+  if (snapshot == null) {
+    return null;
+  }
+
+  const { meta } = snapshot.document;
+
+  return {
+    ...(meta.title && { title: meta.title }),
+    ...(meta.description && { description: meta.description }),
+  };
+}
