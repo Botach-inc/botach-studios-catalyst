@@ -33,7 +33,7 @@ function normalizeLocale(locale: string): string | undefined {
   return locale === defaultLocale ? undefined : locale;
 }
 
-export async function getPageMetadata({ path, locale }: { path: string; locale: string }) {
+export async function getMakeswiftPageMetadata({ path, locale }: { path: string; locale: string }) {
   const snapshot = await getPageSnapshot({ path, locale });
 
   if (snapshot == null) {

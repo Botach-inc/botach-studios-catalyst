@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { locales } from '~/i18n/locales';
-import { getPageMetadata, Page as MakeswiftPage } from '~/lib/makeswift';
+import { getMakeswiftPageMetadata, Page as MakeswiftPage } from '~/lib/makeswift';
 
 interface Params {
   locale: string;
@@ -13,7 +13,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const metadata = await getPageMetadata({ path: '/', locale });
+  const metadata = await getMakeswiftPageMetadata({ path: '/', locale });
 
   return metadata ?? {};
 }

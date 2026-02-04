@@ -23,12 +23,12 @@ The following pages now support Makeswift SEO metadata:
 
 ## Migration steps
 
-### Step 1: Add `getPageMetadata` function
+### Step 1: Add `getMakeswiftPageMetadata` function
 
-Add the `getPageMetadata` function to `core/lib/makeswift/client.ts`:
+Add the `getMakeswiftPageMetadata` function to `core/lib/makeswift/client.ts`:
 
 ```diff
-+ export async function getPageMetadata({ path, locale }: { path: string; locale: string }) {
++ export async function getMakeswiftPageMetadata({ path, locale }: { path: string; locale: string }) {
 +   const snapshot = await getPageSnapshot({ path, locale });
 +
 +   if (snapshot == null) {
@@ -49,7 +49,7 @@ Export the function from `core/lib/makeswift/index.ts`:
 ```diff
   export { Page } from './page';
 - export { client } from './client';
-+ export { client, getPageMetadata } from './client';
++ export { client, getMakeswiftPageMetadata } from './client';
 ```
 
 ### Step 2: Update page metadata
@@ -60,7 +60,7 @@ Update `core/app/[locale]/(default)/cart/page.tsx`:
 
 ```diff
   import { getPreferredCurrencyCode } from '~/lib/currency';
-+ import { getPageMetadata } from '~/lib/makeswift';
++ import { getMakeswiftPageMetadata } from '~/lib/makeswift';
   import { Slot } from '~/lib/makeswift/slot';
 ```
 
@@ -69,7 +69,7 @@ Update `core/app/[locale]/(default)/cart/page.tsx`:
     const { locale } = await params;
 
     const t = await getTranslations({ locale, namespace: 'Cart' });
-+   const makeswiftMetadata = await getPageMetadata({ path: '/cart', locale });
++   const makeswiftMetadata = await getMakeswiftPageMetadata({ path: '/cart', locale });
 
     return {
 -     title: t('title'),

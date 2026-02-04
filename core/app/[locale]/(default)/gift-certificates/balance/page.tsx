@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { GiftCertificateCheckBalanceSection } from '@/vibes/soul/sections/gift-certificate-balance-section';
 import { redirect } from '~/i18n/routing';
 import { getPreferredCurrencyCode } from '~/lib/currency';
-import { getPageMetadata } from '~/lib/makeswift';
+import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 
 import { getGiftCertificatesData } from '../page-data';
 
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
 
   const t = await getTranslations({ locale, namespace: 'GiftCertificates' });
-  const makeswiftMetadata = await getPageMetadata({ path: '/gift-certificates/balance', locale });
+  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: '/gift-certificates/balance', locale });
 
   return {
     title: makeswiftMetadata?.title || t('title') || 'Gift certificates - Check balance',

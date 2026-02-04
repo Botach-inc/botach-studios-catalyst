@@ -6,7 +6,7 @@ import { Cart as CartComponent, CartEmptyState } from '@/vibes/soul/sections/car
 import { CartAnalyticsProvider } from '~/app/[locale]/(default)/cart/_components/cart-analytics-provider';
 import { getCartId } from '~/lib/cart';
 import { getPreferredCurrencyCode } from '~/lib/currency';
-import { getPageMetadata } from '~/lib/makeswift';
+import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 import { Slot } from '~/lib/makeswift/slot';
 import { exists } from '~/lib/utils';
 
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
 
   const t = await getTranslations({ locale, namespace: 'Cart' });
-  const makeswiftMetadata = await getPageMetadata({ path: '/cart', locale });
+  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: '/cart', locale });
 
   return {
     title: makeswiftMetadata?.title || t('title'),

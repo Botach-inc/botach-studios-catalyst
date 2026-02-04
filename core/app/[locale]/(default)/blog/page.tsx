@@ -7,7 +7,7 @@ import { createSearchParamsCache, parseAsInteger, parseAsString } from 'nuqs/ser
 import { Streamable } from '@/vibes/soul/lib/streamable';
 import { FeaturedBlogPostList } from '@/vibes/soul/sections/featured-blog-post-list';
 import { defaultPageInfo, pageInfoTransformer } from '~/data-transformers/page-info-transformer';
-import { getPageMetadata } from '~/lib/makeswift';
+import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 
 import { getBlog, getBlogPosts } from './page-data';
 
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale, namespace: 'Blog' });
   const blog = await getBlog();
-  const makeswiftMetadata = await getPageMetadata({ path: '/blog', locale });
+  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: '/blog', locale });
 
   return {
     title: makeswiftMetadata?.title || blog?.name || t('title'),

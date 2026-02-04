@@ -13,7 +13,7 @@ import { facetsTransformer } from '~/data-transformers/facets-transformer';
 import { pageInfoTransformer } from '~/data-transformers/page-info-transformer';
 import { productCardTransformer } from '~/data-transformers/product-card-transformer';
 import { getPreferredCurrencyCode } from '~/lib/currency';
-import { getPageMetadata } from '~/lib/makeswift';
+import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 
 import { MAX_COMPARE_LIMIT } from '../../../compare/page-data';
 import { getCompareProducts as getCompareProductsData } from '../../fetch-compare-products';
@@ -79,7 +79,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     return notFound();
   }
 
-  const makeswiftMetadata = await getPageMetadata({ path: brand.path, locale });
+  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: brand.path, locale });
 
   const { pageTitle, metaDescription, metaKeywords } = brand.seo;
 

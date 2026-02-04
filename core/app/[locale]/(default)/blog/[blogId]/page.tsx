@@ -5,7 +5,7 @@ import { cache } from 'react';
 
 import { BlogPostContent, BlogPostContentBlogPost } from '@/vibes/soul/sections/blog-post-content';
 import { Breadcrumb } from '@/vibes/soul/sections/breadcrumbs';
-import { getPageMetadata } from '~/lib/makeswift';
+import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 
 import { getBlogPageData } from './page-data';
 
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
-  const makeswiftMetadata = await getPageMetadata({ path: blogPost.path, locale });
+  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: blogPost.path, locale });
   const { pageTitle, metaDescription, metaKeywords } = blogPost.seo;
 
   return {

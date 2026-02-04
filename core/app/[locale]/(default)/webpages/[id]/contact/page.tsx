@@ -12,7 +12,7 @@ import {
   breadcrumbsTransformer,
   truncateBreadcrumbs,
 } from '~/data-transformers/breadcrumbs-transformer';
-import { getPageMetadata } from '~/lib/makeswift';
+import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 
 import { WebPage, WebPageContent } from '../_components/web-page';
 
@@ -155,7 +155,7 @@ async function getContactFields(id: string) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id, locale } = await params;
   const webpage = await getWebPage(id);
-  const makeswiftMetadata = await getPageMetadata({ path: webpage.path, locale });
+  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: webpage.path, locale });
   const { pageTitle, metaDescription, metaKeywords } = webpage.seo;
 
   return {
