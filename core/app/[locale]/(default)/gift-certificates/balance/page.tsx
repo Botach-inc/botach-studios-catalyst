@@ -18,7 +18,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
 
   const t = await getTranslations({ locale, namespace: 'GiftCertificates' });
-  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: '/gift-certificates/balance', locale });
+  const makeswiftMetadata = await getMakeswiftPageMetadata({
+    path: '/gift-certificates/balance',
+    locale,
+  });
 
   return {
     title: makeswiftMetadata?.title || t('title') || 'Gift certificates - Check balance',
