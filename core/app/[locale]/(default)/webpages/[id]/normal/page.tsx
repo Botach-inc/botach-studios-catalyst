@@ -9,6 +9,7 @@ import {
   breadcrumbsTransformer,
   truncateBreadcrumbs,
 } from '~/data-transformers/breadcrumbs-transformer';
+import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 
 import { WebPageContent, WebPage as WebPageData } from '../_components/web-page';
 
@@ -30,6 +31,7 @@ const getWebPage = cache(async (id: string): Promise<WebPageData> => {
 
   return {
     title: webpage.name,
+    path: webpage.path,
     breadcrumbs,
     content: webpage.htmlBody,
     seo: webpage.seo,
@@ -57,13 +59,14 @@ async function getWebPageBreadcrumbs(id: string): Promise<Breadcrumb[]> {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
+  const { id, locale } = await params;
   const webpage = await getWebPage(id);
+  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: webpage.path, locale });
   const { pageTitle, metaDescription, metaKeywords } = webpage.seo;
 
   return {
-    title: pageTitle || webpage.title,
-    description: metaDescription,
+    title: makeswiftMetadata?.title || pageTitle || webpage.title,
+    description: makeswiftMetadata?.description || metaDescription,
     keywords: metaKeywords ? metaKeywords.split(',') : null,
   };
 }

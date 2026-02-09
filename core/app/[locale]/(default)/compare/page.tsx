@@ -8,6 +8,7 @@ import { CompareSection } from '@/vibes/soul/sections/compare-section';
 import { getSessionCustomerAccessToken } from '~/auth';
 import { pricesTransformer } from '~/data-transformers/prices-transformer';
 import { getPreferredCurrencyCode } from '~/lib/currency';
+import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 
 import { addToCart } from './_actions/add-to-cart';
 import { CompareAnalyticsProvider } from './_components/compare-analytics-provider';
@@ -41,9 +42,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
 
   const t = await getTranslations({ locale, namespace: 'Compare' });
+  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: '/compare', locale });
 
   return {
-    title: t('title'),
+    title: makeswiftMetadata?.title || t('title'),
+    description: makeswiftMetadata?.description || undefined,
   };
 }
 

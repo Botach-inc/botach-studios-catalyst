@@ -11,6 +11,7 @@ import { pricesTransformer } from '~/data-transformers/prices-transformer';
 import { productCardTransformer } from '~/data-transformers/product-card-transformer';
 import { productOptionsTransformer } from '~/data-transformers/product-options-transformer';
 import { getPreferredCurrencyCode } from '~/lib/currency';
+import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 import { ProductDetail } from '~/lib/makeswift/components/product-detail';
 
 import { addToCart } from './_actions/add-to-cart';
@@ -36,7 +37,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const customerAccessToken = await getSessionCustomerAccessToken();
 
   const productId = Number(slug);
@@ -47,12 +48,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return notFound();
   }
 
+  const makeswiftMetadata = await getMakeswiftPageMetadata({ path: product.path, locale });
+
   const { pageTitle, metaDescription, metaKeywords } = product.seo;
   const { url, altText: alt } = product.defaultImage || {};
 
   return {
-    title: pageTitle || product.name,
-    description: metaDescription || `${product.plainTextDescription.slice(0, 150)}...`,
+    title: makeswiftMetadata?.title || pageTitle || product.name,
+    description:
+      makeswiftMetadata?.description ||
+      metaDescription ||
+      `${product.plainTextDescription.slice(0, 150)}...`,
     keywords: metaKeywords ? metaKeywords.split(',') : null,
     openGraph: url
       ? {

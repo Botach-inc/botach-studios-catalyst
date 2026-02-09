@@ -147,6 +147,7 @@ const ProductPageMetadataQuery = graphql(`
           metaDescription
           metaKeywords
         }
+        path
         plainTextDescription(characterLimit: 1200)
       }
     }
