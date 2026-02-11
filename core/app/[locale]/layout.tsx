@@ -30,6 +30,9 @@ const RootLayoutMetadataQuery = graphql(
     query RootLayoutMetadataQuery {
       site {
         settings {
+          url {
+            vanityUrl
+          }
           privacy {
             cookieConsentEnabled
             privacyPolicyUrl
@@ -68,7 +71,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const { pageTitle, metaDescription, metaKeywords } = data.site.settings?.seo || {};
 
+  const vanityUrl = data.site.settings?.url.vanityUrl;
+
   return {
+    metadataBase: vanityUrl ? new URL(vanityUrl) : undefined,
     title: {
       template: `%s - ${storeName}`,
       default: pageTitle || storeName,
