@@ -13,6 +13,7 @@ import {
   truncateBreadcrumbs,
 } from '~/data-transformers/breadcrumbs-transformer';
 import { getMakeswiftPageMetadata } from '~/lib/makeswift';
+import { getMetadataAlternates } from '~/lib/seo/canonical';
 
 import { WebPage, WebPageContent } from '../_components/web-page';
 
@@ -160,8 +161,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: makeswiftMetadata?.title || pageTitle || webpage.title,
-    description: makeswiftMetadata?.description || metaDescription,
-    keywords: metaKeywords ? metaKeywords.split(',') : null,
+    ...((makeswiftMetadata?.description || metaDescription) && {
+      description: makeswiftMetadata?.description || metaDescription,
+    }),
+    ...(metaKeywords && { keywords: metaKeywords.split(',') }),
+    ...(webpage.path && {
+      alternates: await getMetadataAlternates({ path: webpage.path, locale }),
+    }),
   };
 }
 

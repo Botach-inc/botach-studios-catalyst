@@ -10,6 +10,7 @@ import {
   truncateBreadcrumbs,
 } from '~/data-transformers/breadcrumbs-transformer';
 import { getMakeswiftPageMetadata } from '~/lib/makeswift';
+import { getMetadataAlternates } from '~/lib/seo/canonical';
 
 import { WebPageContent, WebPage as WebPageData } from '../_components/web-page';
 
@@ -64,10 +65,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const makeswiftMetadata = await getMakeswiftPageMetadata({ path: webpage.path, locale });
   const { pageTitle, metaDescription, metaKeywords } = webpage.seo;
 
+  // Get the path from the last breadcrumb
+  const pagePath = webpage.breadcrumbs[webpage.breadcrumbs.length - 1]?.href;
+
   return {
     title: makeswiftMetadata?.title || pageTitle || webpage.title,
-    description: makeswiftMetadata?.description || metaDescription,
-    keywords: metaKeywords ? metaKeywords.split(',') : null,
+    ...((makeswiftMetadata?.description || metaDescription) && {
+      description: makeswiftMetadata?.description || metaDescription,
+    }),
+    ...(metaKeywords && { keywords: metaKeywords.split(',') }),
+    ...(pagePath && { alternates: await getMetadataAlternates({ path: pagePath, locale }) }),
   };
 }
 

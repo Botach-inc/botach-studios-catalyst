@@ -6,6 +6,7 @@ import { cache } from 'react';
 import { BlogPostContent, BlogPostContentBlogPost } from '@/vibes/soul/sections/blog-post-content';
 import { Breadcrumb } from '@/vibes/soul/sections/breadcrumbs';
 import { getMakeswiftPageMetadata } from '~/lib/makeswift';
+import { getMetadataAlternates } from '~/lib/seo/canonical';
 
 import { getBlogPageData } from './page-data';
 
@@ -35,8 +36,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: makeswiftMetadata?.title || pageTitle || blogPost.name,
-    description: makeswiftMetadata?.description || metaDescription,
-    keywords: metaKeywords ? metaKeywords.split(',') : null,
+    ...((makeswiftMetadata?.description || metaDescription) && {
+      description: makeswiftMetadata?.description || metaDescription,
+    }),
+    ...(metaKeywords && { keywords: metaKeywords.split(',') }),
+    ...(blogPost.path && {
+      alternates: await getMetadataAlternates({ path: blogPost.path, locale }),
+    }),
   };
 }
 

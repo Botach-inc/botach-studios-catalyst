@@ -134,27 +134,27 @@ importers:
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
+      dompurify:
+        specifier: ^3.3.1
+        version: 3.3.1
       embla-carousel:
-        specifier: 8.5.2
-        version: 8.5.2
+        specifier: 9.0.0-rc01
+        version: 9.0.0-rc01
       embla-carousel-autoplay:
-        specifier: 8.5.2
-        version: 8.5.2(embla-carousel@8.5.2)
+        specifier: 9.0.0-rc01
+        version: 9.0.0-rc01(embla-carousel@9.0.0-rc01)
       embla-carousel-fade:
-        specifier: 8.5.2
-        version: 8.5.2(embla-carousel@8.5.2)
+        specifier: 9.0.0-rc01
+        version: 9.0.0-rc01(embla-carousel@9.0.0-rc01)
       embla-carousel-react:
-        specifier: 8.5.2
-        version: 8.5.2(react@19.1.5)
+        specifier: 9.0.0-rc01
+        version: 9.0.0-rc01(react@19.1.5)
       gql.tada:
         specifier: ^1.8.10
         version: 1.8.10(graphql@16.11.0)(typescript@5.8.3)
       graphql:
         specifier: ^16.11.0
         version: 16.11.0
-      isomorphic-dompurify:
-        specifier: ^2.25.0
-        version: 2.25.0
       jose:
         specifier: ^5.10.0
         version: 5.10.0
@@ -6019,8 +6019,8 @@ packages:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
 
-  dompurify@3.2.6:
-    resolution: {integrity: sha512-/2GogDQlohXPZe6D6NOgQvXLPSYBqIWMnZ8zzOhn09REE4eyAzb+Hed3jhoM9OkuaJ8P6ZGTTVWQKAi8ieIzfQ==}
+  dompurify@3.3.1:
+    resolution: {integrity: sha512-qkdCKzLNtrgPFP1Vo+98FRzJnBRGe4ffyCea9IwHB1fyxPOeNTHpLKYGd4Uk9xvNoH0ZoOjwZxNptyMwqrId1Q==}
 
   domutils@3.1.0:
     resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
@@ -6172,28 +6172,28 @@ packages:
   electron-to-chromium@1.5.165:
     resolution: {integrity: sha512-naiMx1Z6Nb2TxPU6fiFrUrDTjyPMLdTtaOd2oLmG8zVSg2hCWGkhPyxwk+qRmZ1ytwVqUv0u7ZcDA5+ALhaUtw==}
 
-  embla-carousel-autoplay@8.5.2:
-    resolution: {integrity: sha512-27emJ0px3q/c0kCHCjwRrEbYcyYUPfGO3g5IBWF1i7714TTzE6L9P81V6PHLoSMAKJ1aHoT2e7YFOsuFKCbyag==}
+  embla-carousel-autoplay@9.0.0-rc01:
+    resolution: {integrity: sha512-gl7jUe0X9xd5v7IiyFF2FCR+KTBesnutM0gQ3S75oo9EizZi5tJMNdVaFwvzepz6kGzDkkSbKMWitQvAbFVfdQ==}
     peerDependencies:
-      embla-carousel: 8.5.2
+      embla-carousel: 9.0.0-rc01
 
-  embla-carousel-fade@8.5.2:
-    resolution: {integrity: sha512-QJ46Xy+mpijjquQeIY0d0sPSy34XduREUnz7tn1K20hcKyZYTONNIXQZu3GGNwG59cvhMqYJMw9ki92Rjd14YA==}
+  embla-carousel-fade@9.0.0-rc01:
+    resolution: {integrity: sha512-sIpJaJmcrp7+vm5r/XHEqDcCo5Fg29DdL/2Za5FQ2k//ePqapnPPzfUeG018uPT/6ylBjhn007s4sRkilbu2GA==}
     peerDependencies:
-      embla-carousel: 8.5.2
+      embla-carousel: 9.0.0-rc01
 
-  embla-carousel-react@8.5.2:
-    resolution: {integrity: sha512-Tmx+uY3MqseIGdwp0ScyUuxpBgx5jX1f7od4Cm5mDwg/dptEiTKf9xp6tw0lZN2VA9JbnVMl/aikmbc53c6QFA==}
+  embla-carousel-react@9.0.0-rc01:
+    resolution: {integrity: sha512-2ik9QtVm3UXJWkVdEEm6bInmxNSmxq9Z2q5GWuJx3v2vZvujmlDzcrIE6bvh+wWgPmDn6jekJCRHm1eEl/N0SA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.1 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
-  embla-carousel-reactive-utils@8.5.2:
-    resolution: {integrity: sha512-QC8/hYSK/pEmqEdU1IO5O+XNc/Ptmmq7uCB44vKplgLKhB/l0+yvYx0+Cv0sF6Ena8Srld5vUErZkT+yTahtDg==}
+  embla-carousel-reactive-utils@9.0.0-rc01:
+    resolution: {integrity: sha512-RnW0NMrL7wVAQb9jro+l96hLI2JairyFHS2Jv+fvXakveD/c5aD9aoNH94YRbTmi0G7PxrKSxydmCpTy5eFmrA==}
     peerDependencies:
-      embla-carousel: 8.5.2
+      embla-carousel: 9.0.0-rc01
 
-  embla-carousel@8.5.2:
-    resolution: {integrity: sha512-xQ9oVLrun/eCG/7ru3R+I5bJ7shsD8fFwLEY7yPe27/+fDHCNj0OT5EoG5ZbFyOxOcG6yTwW8oTz/dWyFnyGpg==}
+  embla-carousel@9.0.0-rc01:
+    resolution: {integrity: sha512-4BTERU1gAXgg4Vl0m7hQ1GzePGLNNfM2j030ww8i9idiPXumyRUpaNUDfT2zx1Hv8um1Ew7QKBy/HdNPz8L30g==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -7399,10 +7399,6 @@ packages:
     resolution: {integrity: sha512-LpB/54B+/2J5hqQ7imZHfdU31OlgQqx7ZicVlkm9kzg9/w8GKLEcFfJl/t7DCEDueOyBAD6zCCwTO6Fzs0NoEQ==}
     engines: {node: '>=16'}
 
-  isomorphic-dompurify@2.25.0:
-    resolution: {integrity: sha512-bcpJzu9DOjN21qaCVpcoCwUX1ytpvA6EFqCK5RNtPg5+F0Jz9PX50jl6jbEicBNeO87eDDfC7XtPs4zjDClZJg==}
-    engines: {node: '>=18'}
-
   isomorphic-fetch@3.0.0:
     resolution: {integrity: sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==}
 
@@ -8489,9 +8485,6 @@ packages:
   parse5-parser-stream@7.1.2:
     resolution: {integrity: sha512-JyeQc9iwFLn5TbvvqACIF/VXG6abODeB3Fwmv/TGdLk2LfbWkaySGY72at4+Ty7EkPZj854u4CrICqNk2qIbow==}
 
-  parse5@7.2.1:
-    resolution: {integrity: sha512-BuBYQYlv1ckiPdQi/ohiivi9Sagc9JG+Ozs0r7b/0iK3sKmrb0b9FdWdBbOdx6hBCM/F9Ir82ofnBhtZOjCRPQ==}
-
   parse5@7.3.0:
     resolution: {integrity: sha512-IInvU7fabl34qmi9gY8XOVxhYyMyuH2xUNpb2q8/Y+7552KlejkRvqvD19nMoUW/uQGGbqNpA6Tufu5FL5BZgw==}
 
@@ -8978,7 +8971,6 @@ packages:
   puppeteer@24.10.0:
     resolution: {integrity: sha512-Oua9VkGpj0S2psYu5e6mCer6W9AU9POEQh22wRgSXnLXASGH+MwLUVWgLCLeP9QPHHcJ7tySUlg4Sa9OJmaLpw==}
     engines: {node: '>=18'}
-    deprecated: < 24.15.0 is no longer supported
     hasBin: true
 
   pure-rand@6.1.0:
@@ -10652,6 +10644,7 @@ snapshots:
       '@csstools/css-parser-algorithms': 3.0.5(@csstools/css-tokenizer@3.0.4)
       '@csstools/css-tokenizer': 3.0.4
       lru-cache: 10.4.3
+    optional: true
 
   '@ast-grep/napi-darwin-arm64@0.35.0':
     optional: true
@@ -17496,6 +17489,7 @@ snapshots:
     dependencies:
       '@asamuzakjp/css-color': 3.2.0
       rrweb-cssom: 0.8.0
+    optional: true
 
   csstype@2.6.21: {}
 
@@ -17509,6 +17503,7 @@ snapshots:
     dependencies:
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.2.0
+    optional: true
 
   data-view-buffer@1.0.2:
     dependencies:
@@ -17678,7 +17673,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.2.6:
+  dompurify@3.3.1:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
@@ -17744,25 +17739,25 @@ snapshots:
 
   electron-to-chromium@1.5.165: {}
 
-  embla-carousel-autoplay@8.5.2(embla-carousel@8.5.2):
+  embla-carousel-autoplay@9.0.0-rc01(embla-carousel@9.0.0-rc01):
     dependencies:
-      embla-carousel: 8.5.2
+      embla-carousel: 9.0.0-rc01
 
-  embla-carousel-fade@8.5.2(embla-carousel@8.5.2):
+  embla-carousel-fade@9.0.0-rc01(embla-carousel@9.0.0-rc01):
     dependencies:
-      embla-carousel: 8.5.2
+      embla-carousel: 9.0.0-rc01
 
-  embla-carousel-react@8.5.2(react@19.1.5):
+  embla-carousel-react@9.0.0-rc01(react@19.1.5):
     dependencies:
-      embla-carousel: 8.5.2
-      embla-carousel-reactive-utils: 8.5.2(embla-carousel@8.5.2)
+      embla-carousel: 9.0.0-rc01
+      embla-carousel-reactive-utils: 9.0.0-rc01(embla-carousel@9.0.0-rc01)
       react: 19.1.5
 
-  embla-carousel-reactive-utils@8.5.2(embla-carousel@8.5.2):
+  embla-carousel-reactive-utils@9.0.0-rc01(embla-carousel@9.0.0-rc01):
     dependencies:
-      embla-carousel: 8.5.2
+      embla-carousel: 9.0.0-rc01
 
-  embla-carousel@8.5.2: {}
+  embla-carousel@9.0.0-rc01: {}
 
   emittery@0.13.1: {}
 
@@ -18895,6 +18890,7 @@ snapshots:
   html-encoding-sniffer@4.0.0:
     dependencies:
       whatwg-encoding: 3.1.1
+    optional: true
 
   html-escaper@2.0.2: {}
 
@@ -19162,7 +19158,8 @@ snapshots:
 
   is-plain-object@5.0.0: {}
 
-  is-potential-custom-element-name@1.0.1: {}
+  is-potential-custom-element-name@1.0.1:
+    optional: true
 
   is-promise@4.0.0: {}
 
@@ -19251,16 +19248,6 @@ snapshots:
   isexe@2.0.0: {}
 
   isexe@3.1.1: {}
-
-  isomorphic-dompurify@2.25.0:
-    dependencies:
-      dompurify: 3.2.6
-      jsdom: 26.1.0
-    transitivePeerDependencies:
-      - bufferutil
-      - canvas
-      - supports-color
-      - utf-8-validate
 
   isomorphic-fetch@3.0.0(encoding@0.1.13):
     dependencies:
@@ -19689,7 +19676,7 @@ snapshots:
       https-proxy-agent: 7.0.6
       is-potential-custom-element-name: 1.0.1
       nwsapi: 2.2.20
-      parse5: 7.2.1
+      parse5: 7.3.0
       rrweb-cssom: 0.8.0
       saxes: 6.0.0
       symbol-tree: 3.2.4
@@ -19705,6 +19692,7 @@ snapshots:
       - bufferutil
       - supports-color
       - utf-8-validate
+    optional: true
 
   jsesc@3.1.0: {}
 
@@ -20328,7 +20316,8 @@ snapshots:
     optionalDependencies:
       next: 15.5.10(@babel/core@7.27.4)(@opentelemetry/api@1.9.0)(@playwright/test@1.52.0)(babel-plugin-macros@3.1.0)(react-dom@19.1.5(react@19.1.5))(react@19.1.5)
 
-  nwsapi@2.2.20: {}
+  nwsapi@2.2.20:
+    optional: true
 
   nypm@0.5.4:
     dependencies:
@@ -20561,10 +20550,6 @@ snapshots:
   parse5-parser-stream@7.1.2:
     dependencies:
       parse5: 7.3.0
-
-  parse5@7.2.1:
-    dependencies:
-      entities: 4.5.0
 
   parse5@7.3.0:
     dependencies:
@@ -21354,7 +21339,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  rrweb-cssom@0.8.0: {}
+  rrweb-cssom@0.8.0:
+    optional: true
 
   rspack-resolver@1.2.2:
     optionalDependencies:
@@ -21408,6 +21394,7 @@ snapshots:
   saxes@6.0.0:
     dependencies:
       xmlchars: 2.2.0
+    optional: true
 
   scheduler@0.26.0: {}
 
@@ -21918,7 +21905,8 @@ snapshots:
       react: 19.1.5
       use-sync-external-store: 1.5.0(react@19.1.5)
 
-  symbol-tree@3.2.4: {}
+  symbol-tree@3.2.4:
+    optional: true
 
   synckit@0.11.8:
     dependencies:
@@ -22073,6 +22061,7 @@ snapshots:
   tldts@6.1.86:
     dependencies:
       tldts-core: 6.1.86
+    optional: true
 
   tmp@0.0.33:
     dependencies:
@@ -22104,6 +22093,7 @@ snapshots:
   tough-cookie@5.1.2:
     dependencies:
       tldts: 6.1.86
+    optional: true
 
   tr46@0.0.3: {}
 
@@ -22114,6 +22104,7 @@ snapshots:
   tr46@5.1.1:
     dependencies:
       punycode: 2.3.1
+    optional: true
 
   tree-kill@1.2.2: {}
 
@@ -22601,6 +22592,7 @@ snapshots:
   w3c-xmlserializer@5.0.0:
     dependencies:
       xml-name-validator: 5.0.0
+    optional: true
 
   walker@1.0.8:
     dependencies:
@@ -22612,7 +22604,8 @@ snapshots:
 
   webidl-conversions@4.0.2: {}
 
-  webidl-conversions@7.0.0: {}
+  webidl-conversions@7.0.0:
+    optional: true
 
   webpack-bundle-analyzer@4.10.1:
     dependencies:
@@ -22647,6 +22640,7 @@ snapshots:
     dependencies:
       tr46: 5.1.1
       webidl-conversions: 7.0.0
+    optional: true
 
   whatwg-url@5.0.0:
     dependencies:
@@ -22788,9 +22782,11 @@ snapshots:
 
   xdg-basedir@4.0.0: {}
 
-  xml-name-validator@5.0.0: {}
+  xml-name-validator@5.0.0:
+    optional: true
 
-  xmlchars@2.2.0: {}
+  xmlchars@2.2.0:
+    optional: true
 
   xtend@2.1.2:
     dependencies:

@@ -9,6 +9,7 @@ import { getSessionCustomerAccessToken } from '~/auth';
 import { pricesTransformer } from '~/data-transformers/prices-transformer';
 import { getPreferredCurrencyCode } from '~/lib/currency';
 import { getMakeswiftPageMetadata } from '~/lib/makeswift';
+import { getMetadataAlternates } from '~/lib/seo/canonical';
 
 import { addToCart } from './_actions/add-to-cart';
 import { CompareAnalyticsProvider } from './_components/compare-analytics-provider';
@@ -46,7 +47,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: makeswiftMetadata?.title || t('title'),
-    description: makeswiftMetadata?.description || undefined,
+    ...(makeswiftMetadata?.description && { description: makeswiftMetadata.description }),
+    alternates: await getMetadataAlternates({ path: '/compare', locale }),
   };
 }
 

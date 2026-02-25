@@ -13,8 +13,10 @@ import { productOptionsTransformer } from '~/data-transformers/product-options-t
 import { getPreferredCurrencyCode } from '~/lib/currency';
 import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 import { ProductDetail } from '~/lib/makeswift/components/product-detail';
+import { getMetadataAlternates } from '~/lib/seo/canonical';
 
 import { addToCart } from './_actions/add-to-cart';
+import { getMoreProductImages } from './_actions/get-more-images';
 import { submitReview } from './_actions/submit-review';
 import { ProductAnalyticsProvider } from './_components/product-analytics-provider';
 import { ProductSchema } from './_components/product-schema';
@@ -28,7 +30,8 @@ import {
   getProductPricingAndRelatedProducts,
   getStreamableInventorySettingsQuery,
   getStreamableProduct,
-  getStreamableProductVariant,
+  getStreamableProductInventory,
+  getStreamableProductVariantInventory,
 } from './page-data';
 
 interface Props {
@@ -58,18 +61,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description:
       makeswiftMetadata?.description ||
       metaDescription ||
-      `${product.plainTextDescription.slice(0, 150)}...`,
-    keywords: metaKeywords ? metaKeywords.split(',') : null,
-    openGraph: url
-      ? {
-          images: [
-            {
-              url,
-              alt,
-            },
-          ],
-        }
-      : null,
+      `${product.plainTextDescription.replaceAll(/\s+/g, ' ').trim().slice(0, 150)}...`,
+    ...(metaKeywords && { keywords: metaKeywords.split(',') }),
+    alternates: await getMetadataAlternates({ path: product.path, locale }),
+    ...(url && { openGraph: { images: [{ url, alt }] } }),
   };
 }
 
@@ -123,8 +118,22 @@ export default async function Product({ params, searchParams }: Props) {
 
   const streamableProductSku = Streamable.from(async () => (await streamableProduct).sku);
 
-  const streamableProductVariant = Streamable.from(async () => {
-    const product = await streamableProduct;
+  const streamableProductInventory = Streamable.from(async () => {
+    const variables = {
+      entityId: Number(productId),
+    };
+
+    const product = await getStreamableProductInventory(variables, customerAccessToken);
+
+    if (!product) {
+      return notFound();
+    }
+
+    return product;
+  });
+
+  const streamableProductVariantInventory = Streamable.from(async () => {
+    const product = await streamableProductInventory;
 
     if (!product.inventory.hasVariantInventory) {
       return undefined;
@@ -135,7 +144,7 @@ export default async function Product({ params, searchParams }: Props) {
       sku: product.sku,
     };
 
-    const variants = await getStreamableProductVariant(variables, customerAccessToken);
+    const variants = await getStreamableProductVariantInventory(variables, customerAccessToken);
 
     if (!variants) {
       return undefined;
@@ -188,13 +197,16 @@ export default async function Product({ params, searchParams }: Props) {
         alt: image.altText,
       }));
 
-    return product.defaultImage
-      ? [{ src: product.defaultImage.url, alt: product.defaultImage.altText }, ...images]
-      : images;
+    return {
+      images: product.defaultImage
+        ? [{ src: product.defaultImage.url, alt: product.defaultImage.altText }, ...images]
+        : images,
+      pageInfo: product.images.pageInfo,
+    };
   });
 
   const streameableCtaLabel = Streamable.from(async () => {
-    const product = await streamableProduct;
+    const product = await streamableProductInventory;
 
     if (product.availabilityV2.status === 'Unavailable') {
       return t('ProductDetails.Submit.unavailable');
@@ -212,7 +224,7 @@ export default async function Product({ params, searchParams }: Props) {
   });
 
   const streameableCtaDisabled = Streamable.from(async () => {
-    const product = await streamableProduct;
+    const product = await streamableProductInventory;
 
     if (product.availabilityV2.status === 'Unavailable') {
       return true;
@@ -259,8 +271,8 @@ export default async function Product({ params, searchParams }: Props) {
 
   const streamableStockDisplayData = Streamable.from(async () => {
     const [product, variant, inventorySetting] = await Streamable.all([
-      streamableProduct,
-      streamableProductVariant,
+      streamableProductInventory,
+      streamableProductVariantInventory,
       streamableInventorySettings,
     ]);
 
@@ -349,8 +361,8 @@ export default async function Product({ params, searchParams }: Props) {
 
   const streamableBackorderDisplayData = Streamable.from(async () => {
     const [product, variant, inventorySetting] = await Streamable.all([
-      streamableProduct,
-      streamableProductVariant,
+      streamableProductInventory,
+      streamableProductVariantInventory,
       streamableInventorySettings,
     ]);
 
@@ -552,6 +564,7 @@ export default async function Product({ params, searchParams }: Props) {
           emptySelectPlaceholder={t('ProductDetails.emptySelectPlaceholder')}
           fields={productOptionsTransformer(baseProduct.productOptions)}
           incrementLabel={t('ProductDetails.increaseQuantity')}
+          loadMoreImagesAction={getMoreProductImages}
           prefetch={true}
           product={{
             id: baseProduct.entityId.toString(),

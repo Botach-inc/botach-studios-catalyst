@@ -16,6 +16,7 @@ import { productCardTransformer } from '~/data-transformers/product-card-transfo
 import { getPreferredCurrencyCode } from '~/lib/currency';
 import { getMakeswiftPageMetadata } from '~/lib/makeswift';
 import { Slot } from '~/lib/makeswift/slot';
+import { getMetadataAlternates } from '~/lib/seo/canonical';
 
 import { MAX_COMPARE_LIMIT } from '../../../compare/page-data';
 import { getCompareProducts } from '../../fetch-compare-products';
@@ -86,10 +87,18 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   const { pageTitle, metaDescription, metaKeywords } = category.seo;
 
+  const breadcrumbs = removeEdgesAndNodes(category.breadcrumbs);
+  const categoryPath = breadcrumbs[breadcrumbs.length - 1]?.path;
+
   return {
     title: makeswiftMetadata?.title || pageTitle || category.name,
-    description: makeswiftMetadata?.description || metaDescription,
-    keywords: metaKeywords ? metaKeywords.split(',') : null,
+    ...((makeswiftMetadata?.description || metaDescription) && {
+      description: makeswiftMetadata?.description || metaDescription,
+    }),
+    ...(metaKeywords && { keywords: metaKeywords.split(',') }),
+    ...(categoryPath && {
+      alternates: await getMetadataAlternates({ path: categoryPath, locale }),
+    }),
   };
 }
 

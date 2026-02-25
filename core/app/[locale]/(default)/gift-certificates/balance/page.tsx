@@ -5,6 +5,7 @@ import { GiftCertificateCheckBalanceSection } from '@/vibes/soul/sections/gift-c
 import { redirect } from '~/i18n/routing';
 import { getPreferredCurrencyCode } from '~/lib/currency';
 import { getMakeswiftPageMetadata } from '~/lib/makeswift';
+import { getMetadataAlternates } from '~/lib/seo/canonical';
 
 import { getGiftCertificatesData } from '../page-data';
 
@@ -25,7 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: makeswiftMetadata?.title || t('title') || 'Gift certificates - Check balance',
-    description: makeswiftMetadata?.description || undefined,
+    ...(makeswiftMetadata?.description && { description: makeswiftMetadata.description }),
+    alternates: await getMetadataAlternates({ path: '/gift-certificates/balance', locale }),
   };
 }
 
