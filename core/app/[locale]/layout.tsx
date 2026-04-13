@@ -119,8 +119,10 @@ interface Props extends PropsWithChildren {
 export default async function RootLayout({ params, children }: Props) {
   const { locale } = await params;
 
-  const rootData = await fetchRootLayoutMetadata();
-  const toastNotificationCookieData = await getToastNotification();
+  const [rootData, toastNotificationCookieData] = await Promise.all([
+    fetchRootLayoutMetadata(),
+    getToastNotification(),
+  ]);
 
   if (!routing.locales.includes(locale)) {
     notFound();

@@ -1,7 +1,9 @@
 import { clsx } from 'clsx';
+import { ReactNode } from 'react';
 
 import * as Skeleton from '@/vibes/soul/primitives/skeleton';
 import { Image } from '~/components/image';
+import { Link } from '~/components/link';
 
 export interface MinimalProduct {
   id: string;
@@ -17,6 +19,7 @@ export interface MinimalProductCardProps {
   product: MinimalProduct;
   imagePriority?: boolean;
   imageSizes?: string;
+  quickAddButton?: ReactNode;
 }
 
 export const MinimalProductCard = ({
@@ -24,16 +27,17 @@ export const MinimalProductCard = ({
   className,
   imagePriority = false,
   imageSizes = '(max-width: 767px) 375px, 560px',
+  quickAddButton,
 }: MinimalProductCardProps) => {
-  const { id, title, image, hoverImage } = product;
+  const { id, title, href, image, hoverImage } = product;
 
   return (
-    <div
+    <Link
       aria-label={`View ${title}`}
       className={clsx('minimal-card group cursor-pointer outline-none', className)}
       data-product-id={id}
-      role="button"
-      tabIndex={0}
+      href={href}
+      prefetch="hover"
     >
       <div className="flex w-full flex-col items-center justify-center transition-transform duration-300 hover:scale-[1.02]">
         <div className="relative w-full overflow-hidden">
@@ -74,9 +78,12 @@ export const MinimalProductCard = ({
             </div>
           </div>
         </div>
-        <p className="w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap text-center uppercase" style={{ padding: '0 clamp(2px, 2cqi, 8px)' }}>{title}</p>
+        <div className="flex w-full max-w-full items-center justify-center gap-1" style={{ padding: '0 clamp(2px, 2cqi, 8px)' }}>
+          <p className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-center uppercase">{title}</p>
+          {quickAddButton}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

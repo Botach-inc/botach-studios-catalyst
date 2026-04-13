@@ -295,7 +295,7 @@ const CartPageQuery = graphql(
 
 type Variables = VariablesOf<typeof CartPageQuery>;
 
-export const getCart = async (variables: Variables) => {
+export const getCart = cache(async (variables: Variables) => {
   const customerAccessToken = await getSessionCustomerAccessToken();
 
   const { data } = await client.fetch({
@@ -311,7 +311,7 @@ export const getCart = async (variables: Variables) => {
   });
 
   return data;
-};
+});
 
 const SupportedShippingDestinationsQuery = graphql(`
   query SupportedShippingDestinations {

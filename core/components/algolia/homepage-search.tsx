@@ -1,10 +1,15 @@
 'use client';
 
 import { XIcon } from 'lucide-react';
+import { useCallback } from 'react';
 import { useInfiniteHits, useInstantSearch } from 'react-instantsearch';
 
+import type { MinimalProduct } from '@/vibes/soul/primitives/minimal-product-card';
 import { MinimalProductCardSkeleton } from '@/vibes/soul/primitives/minimal-product-card';
+import { QuickAddButton } from '@/vibes/soul/primitives/quick-add-button';
 import { MinimalProductGrid } from '@/vibes/soul/sections/minimal-product-grid';
+import { getQuickAddOptions } from '~/components/header/_actions/get-quick-add-options';
+import { quickAddToCart } from '~/components/header/_actions/quick-add-to-cart';
 import { Link } from '~/components/link';
 
 import { AlgoliaProvider } from './algolia-provider';
@@ -75,6 +80,17 @@ const HomepageContent = () => {
   const isSearching = status === 'loading' || status === 'stalled';
   const products = items.map(mapHitToProduct);
 
+  const renderQuickAdd = useCallback(
+    (product: MinimalProduct) => (
+      <QuickAddButton
+        getQuickAddOptions={getQuickAddOptions}
+        productHref={product.href}
+        quickAddToCart={quickAddToCart}
+      />
+    ),
+    [],
+  );
+
   if (isSearching && items.length === 0) {
     return (
       <div className="minimal-homepage min-h-screen w-full bg-white">
@@ -98,6 +114,7 @@ const HomepageContent = () => {
           hasMore={!isLastPage}
           onLoadMore={showMore}
           products={products}
+          renderQuickAdd={renderQuickAdd}
         />
       </div>
     </div>

@@ -14,6 +14,9 @@ import { getCartId } from '~/lib/cart';
 import { getPreferredCurrencyCode } from '~/lib/currency';
 import { HeaderSection } from '@/vibes/soul/sections/header-section';
 
+import { applyDrawerCoupon, removeDrawerCoupon } from './_actions/apply-drawer-coupon';
+import { getCartDrawerData } from './_actions/get-cart-drawer-data';
+import { removeCartItem } from './_actions/remove-cart-item';
 import { search } from './_actions/search';
 import { switchCurrency } from './_actions/switch-currency';
 import { CurrencyCode, HeaderFragment, HeaderLinksFragment } from './fragment';
@@ -182,6 +185,10 @@ export const Header = async () => {
         activeCurrencyId: streamableActiveCurrencyId,
         currencyAction: switchCurrency,
         switchCurrencyLabel: t('SwitchCurrency.label'),
+        cartDrawerAction: getCartDrawerData,
+        cartDrawerRemoveAction: removeCartItem,
+        cartDrawerApplyCouponAction: applyDrawerCoupon,
+        cartDrawerRemoveCouponAction: removeDrawerCoupon,
       }}
     />
   );

@@ -69,10 +69,12 @@ export default async function Cart({ params }: Props) {
 
   setRequestLocale(locale);
 
-  const t = await getTranslations('Cart');
-  const tGiftCertificates = await getTranslations('GiftCertificates');
-  const format = await getFormatter();
-  const cartId = await getCartId();
+  const [t, tGiftCertificates, format, cartId] = await Promise.all([
+    getTranslations('Cart'),
+    getTranslations('GiftCertificates'),
+    getFormatter(),
+    getCartId(),
+  ]);
 
   const emptyState = (
     <>
@@ -91,7 +93,10 @@ export default async function Cart({ params }: Props) {
   }
 
   const currencyCode = await getPreferredCurrencyCode();
-  const data = await getCart({ cartId, currencyCode });
+  const [data, shippingCountries] = await Promise.all([
+    getCart({ cartId, currencyCode }),
+    getShippingCountries(),
+  ]);
 
   const cart = data.site.cart;
   const checkout = data.site.checkout;
@@ -230,8 +235,6 @@ export default async function Cart({ params }: Props) {
   const shippingConsignment =
     checkout?.shippingConsignments?.find((consignment) => consignment.selectedShippingOption) ||
     checkout?.shippingConsignments?.[0];
-
-  const shippingCountries = await getShippingCountries();
 
   const countries = shippingCountries.map((country) => ({
     value: country.code,

@@ -65,13 +65,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Product({ params, searchParams }: Props) {
   const { locale, slug } = await params;
-  const customerAccessToken = await getSessionCustomerAccessToken();
   const detachedWishlistFormId = 'product-add-to-wishlist-form';
 
   setRequestLocale(locale);
 
-  const t = await getTranslations('Product');
-  const format = await getFormatter();
+  const [customerAccessToken, t, format] = await Promise.all([
+    getSessionCustomerAccessToken(),
+    getTranslations('Product'),
+    getFormatter(),
+  ]);
 
   const productId = Number(slug);
 

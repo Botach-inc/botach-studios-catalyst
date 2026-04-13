@@ -160,9 +160,8 @@ export function ProductDetailForm<F extends Field>({
       toast.success(successMessage);
 
       startTransition(async () => {
-        // This is needed to refresh the Data Cache after the product has been added to the cart.
-        // The cart id is not picked up after the first time the cart is created/updated.
         await revalidateCart();
+        router.refresh();
       });
     }
   }, [lastResult, successMessage, router]);

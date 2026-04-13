@@ -31,6 +31,11 @@ import { useFormStatus } from 'react-dom';
 import { FormStatus } from '@/vibes/soul/form/form-status';
 import { Stream, Streamable } from '@/vibes/soul/lib/streamable';
 import { Button } from '@/vibes/soul/primitives/button';
+import {
+  CartDrawer,
+  CartDrawerData,
+  DrawerCouponResult,
+} from '@/vibes/soul/primitives/cart-drawer';
 import { Logo } from '@/vibes/soul/primitives/logo';
 import { Price } from '@/vibes/soul/primitives/price-label';
 import { ProductCard } from '@/vibes/soul/primitives/product-card';
@@ -132,6 +137,14 @@ interface Props<S extends SearchResult> {
   giftCertificatesLabel?: string;
   giftCertificatesHref: string;
   giftCertificatesEnabled?: Streamable<boolean>;
+  cartDrawerAction?: () => Promise<CartDrawerData | null>;
+  cartDrawerRemoveAction?: (lineItemEntityId: string) => Promise<unknown>;
+  cartDrawerApplyCouponAction?: (checkoutEntityId: string, code: string) => Promise<DrawerCouponResult>;
+  cartDrawerRemoveCouponAction?: (checkoutEntityId: string, code: string) => Promise<DrawerCouponResult>;
+  cartDrawerCheckoutLabel?: string;
+  cartDrawerViewCartLabel?: string;
+  cartDrawerEmptyTitle?: string;
+  cartDrawerEmptySubtitle?: string;
 }
 
 const MobileMenuButton = forwardRef<
@@ -302,17 +315,28 @@ export const Navigation = forwardRef(function Navigation<S extends SearchResult>
     giftCertificatesLabel = 'Gift Certificates',
     giftCertificatesHref,
     giftCertificatesEnabled: streamableGiftCertificatesEnabled,
+    cartDrawerAction,
+    cartDrawerRemoveAction,
+    cartDrawerApplyCouponAction,
+    cartDrawerRemoveCouponAction,
+    cartDrawerCheckoutLabel,
+    cartDrawerViewCartLabel,
+    cartDrawerEmptyTitle,
+    cartDrawerEmptySubtitle,
   }: Props<S>,
   ref: Ref<HTMLDivElement>,
 ) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const { isSearchOpen, setIsSearchOpen } = useSearch();
+  const router = useRouter();
 
   const pathname = usePathname();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setIsSearchOpen(false);
+    setIsCartDrawerOpen(false);
   }, [pathname, setIsSearchOpen]);
 
   useEffect(() => {
@@ -592,24 +616,35 @@ export const Navigation = forwardRef(function Navigation<S extends SearchResult>
           <Link aria-label={accountLabel} className={navButtonClassName} href={accountHref}>
             <User size={20} strokeWidth={1} />
           </Link>
-          <Link aria-label={cartLabel} className={navButtonClassName} href={cartHref}>
+          <button
+            aria-label={cartLabel}
+            className={navButtonClassName}
+            onClick={() => {
+              if (cartDrawerAction) {
+                setIsCartDrawerOpen(true);
+              } else {
+                window.location.href = cartHref;
+              }
+            }}
+            tabIndex={0}
+          >
             <ShoppingBag size={20} strokeWidth={1} />
             <Stream
               fallback={
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 animate-pulse items-center justify-center rounded-full bg-contrast-100 text-xs text-background" />
+                <span className="absolute -left-0.5 -top-0.5 flex h-4 w-4 animate-pulse items-center justify-center rounded-full bg-contrast-100 text-xs text-background" />
               }
               value={streamableCartCount}
             >
               {(cartCount) =>
                 cartCount != null &&
                 cartCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--nav-cart-count-background,hsl(var(--foreground)))] font-[family-name:var(--nav-cart-count-font-family,var(--font-family-body))] text-xs text-[var(--nav-cart-count-text,hsl(var(--background)))]">
+                  <span className="absolute -left-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--nav-cart-count-background,hsl(var(--foreground)))] font-[family-name:var(--nav-cart-count-font-family,var(--font-family-body))] text-xs text-[var(--nav-cart-count-text,hsl(var(--background)))]">
                     {cartCount}
                   </span>
                 )
               }
             </Stream>
-          </Link>
+          </button>
 
           <Stream fallback={null} value={streamableGiftCertificatesEnabled}>
             {(giftCertificatesEnabled) =>
@@ -659,6 +694,26 @@ export const Navigation = forwardRef(function Navigation<S extends SearchResult>
       <div className="perspective-[2000px] absolute left-0 right-0 top-full z-50 flex w-full justify-center">
         <NavigationMenu.Viewport className="relative mt-2 w-full data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95" />
       </div>
+
+      {cartDrawerAction && (
+        <CartDrawer
+          applyCouponAction={cartDrawerApplyCouponAction}
+          cartHref={cartHref}
+          cartLabel={cartLabel}
+          checkoutLabel={cartDrawerCheckoutLabel}
+          emptySubtitle={cartDrawerEmptySubtitle}
+          emptyTitle={cartDrawerEmptyTitle}
+          fetchCartData={cartDrawerAction}
+          onNavigate={(href) => {
+            router.push(href);
+          }}
+          onOpenChange={setIsCartDrawerOpen}
+          open={isCartDrawerOpen}
+          removeCouponAction={cartDrawerRemoveCouponAction}
+          removeItemAction={cartDrawerRemoveAction}
+          viewCartLabel={cartDrawerViewCartLabel}
+        />
+      )}
     </NavigationMenu.Root>
   );
 });

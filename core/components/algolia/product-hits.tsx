@@ -1,9 +1,13 @@
 'use client';
 
+import { useCallback } from 'react';
 import { useInfiniteHits } from 'react-instantsearch';
 
 import type { MinimalProduct } from '@/vibes/soul/primitives/minimal-product-card';
+import { QuickAddButton } from '@/vibes/soul/primitives/quick-add-button';
 import { MinimalProductGrid } from '@/vibes/soul/sections/minimal-product-grid';
+import { getQuickAddOptions } from '~/components/header/_actions/get-quick-add-options';
+import { quickAddToCart } from '~/components/header/_actions/quick-add-to-cart';
 
 interface AlgoliaProductImage {
   description: string;
@@ -82,5 +86,23 @@ export const ProductHits = () => {
 
   const products = items.map(mapHitToProduct);
 
-  return <MinimalProductGrid hasMore={!isLastPage} onLoadMore={showMore} products={products} />;
+  const renderQuickAdd = useCallback(
+    (product: MinimalProduct) => (
+      <QuickAddButton
+        getQuickAddOptions={getQuickAddOptions}
+        productHref={product.href}
+        quickAddToCart={quickAddToCart}
+      />
+    ),
+    [],
+  );
+
+  return (
+    <MinimalProductGrid
+      hasMore={!isLastPage}
+      onLoadMore={showMore}
+      products={products}
+      renderQuickAdd={renderQuickAdd}
+    />
+  );
 };
