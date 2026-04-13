@@ -11,7 +11,10 @@ function shouldUseLoaderProp(props: ImageProps): boolean {
 
   const { src } = props;
 
-  return buildConfig.get('urls').cdnUrls.some((cdn) => src.startsWith(`https://${cdn}`));
+  return (
+    src.includes('{:size}') &&
+    buildConfig.get('urls').cdnUrls.some((cdn) => src.startsWith(`https://${cdn}`))
+  );
 }
 
 /**

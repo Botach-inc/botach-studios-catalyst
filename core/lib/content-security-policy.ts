@@ -19,7 +19,6 @@ export const cspHeader = builder({
     // scriptSrc: ['self'],
     // styleSrc: ['self'],
     // imgSrc: ['self'],
-    // connectSrc: ['self'],
     // fontSrc: ['self'],
     // objectSrc: ['none'],
     // mediaSrc: ['self'],

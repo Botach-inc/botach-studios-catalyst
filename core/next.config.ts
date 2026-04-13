@@ -64,6 +64,16 @@ export default async (): Promise<NextConfig> => {
 
   let nextConfig: NextConfig = {
     reactStrictMode: true,
+    images: {
+      formats: ['image/avif', 'image/webp'],
+      deviceSizes: [640, 750, 828, 1080, 1200, 1536, 1920, 2048],
+      imageSizes: [16, 32, 48, 96, 128, 256, 384],
+      qualities: [50, 75, 85, 100],
+      remotePatterns: settings.urls.cdnUrls.map((cdn) => ({
+        protocol: 'https' as const,
+        hostname: cdn,
+      })),
+    },
     experimental: {
       optimizePackageImports: ['@icons-pack/react-simple-icons'],
     },

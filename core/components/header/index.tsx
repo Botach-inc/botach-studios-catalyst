@@ -12,7 +12,7 @@ import { logoTransformer } from '~/data-transformers/logo-transformer';
 import { routing } from '~/i18n/routing';
 import { getCartId } from '~/lib/cart';
 import { getPreferredCurrencyCode } from '~/lib/currency';
-import { SiteHeader as HeaderSection } from '~/lib/makeswift/components/site-header';
+import { HeaderSection } from '@/vibes/soul/sections/header-section';
 
 import { search } from './_actions/search';
 import { switchCurrency } from './_actions/switch-currency';
@@ -156,6 +156,7 @@ export const Header = async () => {
   return (
     <HeaderSection
       navigation={{
+        className: 'minimal-nav',
         accountHref: '/login',
         accountLabel: t('Icons.account'),
         cartHref: '/cart',
@@ -170,6 +171,7 @@ export const Header = async () => {
         searchSubmitLabel: t('Search.submitLabel'),
         links: streamableLinks,
         logo,
+        logoHref: '/',
         mobileMenuTriggerLabel: t('toggleNavigation'),
         openSearchPopupLabel: t('Icons.search'),
         logoLabel: t('home'),

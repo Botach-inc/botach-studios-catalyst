@@ -1,4 +1,4 @@
-import { DM_Serif_Text, Inter, Roboto_Mono } from 'next/font/google';
+import { DM_Serif_Text, IBM_Plex_Mono, Inter, Roboto_Mono } from 'next/font/google';
 
 export const inter = Inter({
   display: 'swap',
@@ -19,4 +19,11 @@ export const robotoMono = Roboto_Mono({
   variable: '--font-family-roboto-mono',
 });
 
-export const fonts = [inter, dmSerifText, robotoMono];
+export const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500'],
+  variable: '--font-family-ibm-plex-mono',
+});
+
+export const fonts = [inter, dmSerifText, robotoMono, ibmPlexMono];

@@ -113,13 +113,13 @@ export const MakeswiftHeader = forwardRef(
           logo: logo.desktop.src
             ? { src: logo.desktop.src, alt: logo.desktop.alt }
             : passedProps.logo,
-          logoWidth: logo.desktop.width,
-          logoHeight: logo.desktop.height,
+          logoWidth: logo.desktop.src ? logo.desktop.width : undefined,
+          logoHeight: logo.desktop.src ? logo.desktop.height : undefined,
           mobileLogo: logo.mobile.src
             ? { src: logo.mobile.src, alt: logo.mobile.alt }
-            : passedProps.mobileLogo,
-          mobileLogoWidth: logo.mobile.width,
-          mobileLogoHeight: logo.mobile.height,
+            : passedProps.mobileLogo ?? passedProps.logo,
+          mobileLogoWidth: logo.mobile.src ? logo.mobile.width : undefined,
+          mobileLogoHeight: logo.mobile.src ? logo.mobile.height : undefined,
           linksPosition,
           logoHref: logo.link?.href ?? passedProps.logoHref,
         }}

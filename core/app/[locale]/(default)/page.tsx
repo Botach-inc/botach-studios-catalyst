@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
+import { HomepageSearch } from '~/components/algolia/homepage-search';
 import { locales } from '~/i18n/locales';
-import { getMakeswiftPageMetadata, Page as MakeswiftPage } from '~/lib/makeswift';
 import { getMetadataAlternates } from '~/lib/seo/canonical';
 
 interface Params {
@@ -14,21 +14,15 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const metadata = await getMakeswiftPageMetadata({ path: '/', locale });
 
   return {
-    ...(metadata?.title != null && { title: metadata.title }),
-    ...(metadata?.description != null && { description: metadata.description }),
+    title: 'Shop All Products',
     alternates: await getMetadataAlternates({ path: '/', locale }),
   };
 }
 
-export function generateStaticParams(): Params[] {
-  return locales.map((locale) => ({ locale }));
-}
+export const dynamic = 'force-dynamic';
 
-export default async function Home({ params }: Props) {
-  const { locale } = await params;
-
-  return <MakeswiftPage locale={locale} path="/" />;
+export default function Home() {
+  return <HomepageSearch key="all" />;
 }

@@ -5,25 +5,19 @@ import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/serve
 import { SearchParams } from 'nuqs/server';
 
 import { Stream, Streamable } from '@/vibes/soul/lib/streamable';
-import { FeaturedProductCarousel } from '@/vibes/soul/sections/featured-product-carousel';
-import { auth, getSessionCustomerAccessToken } from '~/auth';
+import { MinimalProductDetail } from '@/vibes/soul/sections/minimal-product-detail';
+import { getSessionCustomerAccessToken } from '~/auth';
 import { pricesTransformer } from '~/data-transformers/prices-transformer';
-import { productCardTransformer } from '~/data-transformers/product-card-transformer';
 import { productOptionsTransformer } from '~/data-transformers/product-options-transformer';
 import { getPreferredCurrencyCode } from '~/lib/currency';
 import { getMakeswiftPageMetadata } from '~/lib/makeswift';
-import { ProductDetail } from '~/lib/makeswift/components/product-detail';
-import { getRecaptchaSiteKey } from '~/lib/recaptcha';
 import { getMetadataAlternates } from '~/lib/seo/canonical';
 
 import { addToCart } from './_actions/add-to-cart';
 import { getMoreProductImages } from './_actions/get-more-images';
-import { submitReview } from './_actions/submit-review';
 import { ProductAnalyticsProvider } from './_components/product-analytics-provider';
 import { ProductSchema } from './_components/product-schema';
 import { ProductViewed } from './_components/product-viewed';
-import { Reviews } from './_components/reviews';
-import { WishlistButton } from './_components/wishlist-button';
 import { WishlistButtonForm } from './_components/wishlist-button/form';
 import {
   getProduct,
@@ -81,13 +75,7 @@ export default async function Product({ params, searchParams }: Props) {
 
   const productId = Number(slug);
 
-  const [{ product: baseProduct, settings }, recaptchaSiteKey] = await Promise.all([
-    getProduct(productId, customerAccessToken),
-    getRecaptchaSiteKey(),
-  ]);
-
-  const reviewsEnabled = Boolean(settings?.reviews.enabled && !settings.display.showProductRating);
-  const showRating = Boolean(settings?.reviews.enabled && settings.display.showProductRating);
+  const { product: baseProduct } = await getProduct(productId, customerAccessToken);
 
   if (!baseProduct) {
     return notFound();
@@ -453,10 +441,12 @@ export default async function Product({ params, searchParams }: Props) {
         name: t('ProductDetails.Accordions.condition'),
         value: product.condition,
       },
-      ...customFields.map((field) => ({
-        name: field.name,
-        value: field.value,
-      })),
+      ...customFields
+        .filter((field) => !field.name.startsWith('__'))
+        .map((field) => ({
+          name: field.name,
+          value: field.value,
+        })),
     ];
 
     return [
@@ -494,18 +484,6 @@ export default async function Product({ params, searchParams }: Props) {
     ];
   });
 
-  const streameableRelatedProducts = Streamable.from(async () => {
-    const product = await streamableProductPricingAndRelatedProducts;
-
-    if (!product) {
-      return [];
-    }
-
-    const relatedProducts = removeEdgesAndNodes(product.relatedProducts);
-
-    return productCardTransformer(relatedProducts, format);
-  });
-
   const streamableMinQuantity = Streamable.from(async () => {
     const product = await streamableProduct;
 
@@ -534,34 +512,11 @@ export default async function Product({ params, searchParams }: Props) {
     };
   });
 
-  const streamableUser = Streamable.from(async () => {
-    const session = await auth();
-    const firstName = session?.user?.firstName ?? '';
-    const lastName = session?.user?.lastName ?? '';
-
-    if (!firstName || !lastName) {
-      return { email: session?.user?.email ?? '', name: '' };
-    }
-
-    const lastInitial = lastName.charAt(0).toUpperCase();
-    const obfuscatedName = `${firstName} ${lastInitial}.`;
-
-    return { email: session?.user?.email ?? '', name: obfuscatedName };
-  });
-
   return (
     <>
       <ProductAnalyticsProvider data={streamableAnalyticsData}>
-        <ProductDetail
+        <MinimalProductDetail
           action={addToCart}
-          additionalActions={
-            <WishlistButton
-              formId={detachedWishlistFormId}
-              productId={productId}
-              productSku={streamableProductSku}
-            />
-          }
-          additionalInformationTitle={t('ProductDetails.additionalInformation')}
           ctaDisabled={streameableCtaDisabled}
           ctaLabel={streameableCtaLabel}
           decrementLabel={t('ProductDetails.decreaseQuantity')}
@@ -573,52 +528,23 @@ export default async function Product({ params, searchParams }: Props) {
           product={{
             id: baseProduct.entityId.toString(),
             title: baseProduct.name,
-            description: <div dangerouslySetInnerHTML={{ __html: baseProduct.description }} />,
+            description: baseProduct.description,
             href: baseProduct.path,
             images: streamableImages,
             price: streamablePrices,
-            reviewsEnabled,
-            showRating,
-            numberOfReviews: baseProduct.reviewSummary.numberOfReviews,
             subtitle: baseProduct.brand?.name,
-            rating: baseProduct.reviewSummary.averageRating,
             accordions: streameableAccordions,
             minQuantity: streamableMinQuantity,
             maxQuantity: streamableMaxQuantity,
             stockDisplayData: streamableStockDisplayData,
             backorderDisplayData: streamableBackorderDisplayData,
           }}
-          productId={baseProduct.entityId}
           quantityLabel={t('ProductDetails.quantity')}
-          recaptchaSiteKey={recaptchaSiteKey}
-          reviewFormAction={submitReview}
           thumbnailLabel={t('ProductDetails.thumbnail')}
-          user={streamableUser}
         />
       </ProductAnalyticsProvider>
 
-      <FeaturedProductCarousel
-        cta={{ label: t('RelatedProducts.cta'), href: '/shop-all' }}
-        emptyStateSubtitle={t('RelatedProducts.browseCatalog')}
-        emptyStateTitle={t('RelatedProducts.noRelatedProducts')}
-        nextLabel={t('RelatedProducts.nextProducts')}
-        previousLabel={t('RelatedProducts.previousProducts')}
-        products={streameableRelatedProducts}
-        scrollbarLabel={t('RelatedProducts.scrollbar')}
-        title={t('RelatedProducts.title')}
-      />
-
-      {showRating && (
-        <div id="reviews">
-          <Reviews
-            productId={productId}
-            recaptchaSiteKey={recaptchaSiteKey}
-            searchParams={searchParams}
-            streamableImages={streamableImages}
-            streamableProduct={streamableProduct}
-          />
-        </div>
-      )}
+      {/* Related products and reviews removed for minimal PDP */}
 
       <Stream
         fallback={null}

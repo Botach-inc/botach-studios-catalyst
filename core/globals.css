@@ -29,4 +29,132 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --button-primary-background: hsl(var(--foreground));
+  --button-primary-text: hsl(var(--background));
+  --button-primary-border: hsl(var(--foreground));
+  --button-primary-background-hover: hsl(var(--contrast-500));
+  --button-secondary-background: hsl(var(--background));
+  --button-secondary-text: hsl(var(--foreground));
+  --button-secondary-border: hsl(var(--foreground));
+  --font-family-body: var(--font-family-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-family-heading: var(--font-family-ibm-plex-mono), 'IBM Plex Mono', monospace;
+  --font-family-mono: var(--font-family-ibm-plex-mono), 'IBM Plex Mono', monospace;
+}
+
+/* Minimal class kept for backward compat */
+.minimal-homepage {
+  font-family: var(--font-family-ibm-plex-mono), 'IBM Plex Mono', monospace;
+}
+
+/*
+ * Intrinsic product grid: auto-fill reflows columns as viewport changes.
+ * min(50%, 220px) guarantees >=2 columns and sets 220px as the practical
+ * minimum card width. Columns are added one at a time as space allows.
+ * At 1440px+ we lock to exactly 6 columns to cap ultrawide layouts.
+ */
+.minimal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(50%, 220px), 1fr));
+  gap: clamp(0px, 0.25vw, 2px);
+}
+
+@media (min-width: 1440px) {
+  .minimal-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Minimal header — fluid typography */
+.minimal-nav [aria-label='Home'] span {
+  font-size: clamp(11px, 0.7vw + 4px, 15px);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.minimal-nav > div {
+  border-radius: 0 !important;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-shadow: none !important;
+}
+
+.minimal-nav ul a {
+  font-size: clamp(9px, 0.5vw + 3px, 12px);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent !important;
+}
+
+.minimal-nav ul a:hover {
+  background: transparent !important;
+  opacity: 0.6;
+}
+
+.minimal-nav button svg,
+.minimal-nav a svg {
+  width: clamp(16px, 1vw + 6px, 20px);
+  height: clamp(16px, 1vw + 6px, 20px);
+}
+
+/* Yeezy-style cart: count inline next to icon, no badge circle */
+.minimal-nav a[href='/cart'] {
+  gap: clamp(3px, 0.3vw, 6px);
+}
+
+.minimal-nav a[href='/cart'] > span {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  background: none !important;
+  color: hsl(var(--foreground)) !important;
+  font-size: clamp(11px, 0.7vw + 4px, 14px) !important;
+  font-weight: 400;
+  order: -1;
+}
+
+/* Scroll-driven card reveal */
+.minimal-card {
+  container-type: inline-size;
+  animation: minimal-card-reveal 0.5s ease-out both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 35%;
+}
+
+@keyframes minimal-card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@supports not (animation-timeline: view()) {
+  .minimal-card {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .minimal-card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Product label — fluid via container query units */
+.minimal-card p {
+  font-size: clamp(7px, 4cqi, 11px);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: clamp(2px, 1cqi, 6px) 0 clamp(4px, 2cqi, 10px);
 }
