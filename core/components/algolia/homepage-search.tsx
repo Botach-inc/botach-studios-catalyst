@@ -85,6 +85,7 @@ const HomepageContent = () => {
       <QuickAddButton
         getQuickAddOptions={getQuickAddOptions}
         productHref={product.href}
+        productTitle={product.title}
         quickAddToCart={quickAddToCart}
       />
     ),

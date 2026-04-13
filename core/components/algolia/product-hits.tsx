@@ -91,6 +91,7 @@ export const ProductHits = () => {
       <QuickAddButton
         getQuickAddOptions={getQuickAddOptions}
         productHref={product.href}
+        productTitle={product.title}
         quickAddToCart={quickAddToCart}
       />
     ),
